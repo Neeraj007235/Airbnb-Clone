@@ -1,0 +1,13 @@
+{
+  "name": "air-bnb",
+  "version": "1.0.0",
+  "description": "1. **Fork this repository:** Click the Fork button located in the top-right corner of this page.\r 2. **Clone the repository:**\r    ```bash\r    git clone https://github.com/<your-username>/Airbnb-Clone.git\r    ```",
+  "main": "index.js",
+  "scripts": {
+    "build":"npm install --prefix Backend && npm install --prefix Frontend && npm run build --prefix Frontend",
+    "start": "npm run start --prefix Backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

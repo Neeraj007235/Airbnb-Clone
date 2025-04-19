@@ -10,9 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.2",
+    "@radix-ui/react-dialog": "^1.1.10",
     "@tailwindcss/vite": "^4.1.4",
+    "air-bnb": "file:..",
+    "axios": "^1.8.4",
+    "lucide-react": "^0.501.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-feather": "^2.0.10",
+    "react-icons": "^5.5.0",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {

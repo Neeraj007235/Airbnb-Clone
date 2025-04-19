@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronUp, Minus, Plus } from "lucide-react";
+import { axiosInstance } from "../lib/axios";
 
 const GuestCounter = ({ label, desc, type, value, onChange, disabledMinus }) => (
   <div className="flex justify-between items-center">
@@ -59,14 +60,16 @@ const ReservationCard = () => {
   }, [guests]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/price", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ guests }),
-    })
-      .then(res => res.json())
-      .then(data => setPricePerNight(data.pricePerNight))
-      .catch(err => console.error("Price fetch error:", err));
+    const getPrice = async () => {
+      try {
+        const res = await axiosInstance.post("/price", { guests });
+        setPricePerNight(res.data.pricePerNight);
+      } catch (err) {
+        console.error("Price fetch error:", err);
+      }
+    };
+  
+    getPrice();
   }, [guests]);
 
   useEffect(() => {
