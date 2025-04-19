@@ -8,7 +8,7 @@ dotenv.config();
 
 app.use(cors());
 app.use(express.json()); 
-
+const PORT = process.env.PORT || 4002;
 const __dirname = path.resolve();
 
 app.post("/api/price", (req, res) => {
@@ -34,7 +34,7 @@ app.post("/api/price", (req, res) => {
       res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
     });
   }
-  
-app.listen(4000, () => {
-  console.log(`Server Running On Port ${process.env.PORT}`)
+
+app.listen(PORT, () => {
+  console.log(`Server Running On Port ${PORT}`)
 });
