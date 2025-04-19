@@ -48,8 +48,8 @@ if (process.env.NODE_ENV === 'production') {
     console.log('Serving frontend from:', distPath);
     app.use(express.static(distPath));
 
-    //Safe catch-all for SPA routing
-    app.get('/*', (req, res) => {
+    // Catch-all fallback **without route parsing**
+    app.use((req, res, next) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   } else {
