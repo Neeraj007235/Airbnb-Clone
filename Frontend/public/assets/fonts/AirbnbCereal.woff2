@@ -1,6 +1,0 @@
-@font-face {
-  font-family: 'AirbnbCereal';
-  src: url('/assets/fonts/AirbnbCereal.woff2') format('woff2');
-  font-weight: 400 800;
-  font-display: swap;
-}
