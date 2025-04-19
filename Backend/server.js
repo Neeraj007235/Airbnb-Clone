@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
@@ -17,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 // Port config
-const PORT = process.env.PORT || 4002;
+const PORT = process.env.PORT || 4000;
 
 // Price calculation API
 app.post('/api/price', (req, res) => {
@@ -31,7 +32,6 @@ app.post('/api/price', (req, res) => {
     let basePrice = 26000;
     const { adults = 1, children = 0, infants = 0, pets = 0 } = guests;
 
-    // Price logic
     basePrice += (adults - 1) * 2000;
     basePrice += children * 1000;
     basePrice += infants * 500;
@@ -44,13 +44,20 @@ app.post('/api/price', (req, res) => {
   }
 });
 
-// Serve static files in production
+//  Safe static file serving in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../Frontend/dist')));
+  const distPath = path.join(__dirname, '../Frontend/dist');
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/dist/index.html'));
-  });
+  if (fs.existsSync(distPath)) {
+    console.log('Serving frontend from:', distPath);
+    app.use(express.static(distPath));
+
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  } else {
+    console.warn('⚠️ Frontend dist folder not found. Skipping static serving.');
+  }
 }
 
 // Start server
