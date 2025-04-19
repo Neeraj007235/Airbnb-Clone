@@ -11,15 +11,6 @@ app.use(express.json());
 
 const __dirname = path.resolve();
 
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../Frontend/dist")));
-
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
-  });  
-}
-
 app.post("/api/price", (req, res) => {
     const { guests } = req.body;
   
@@ -36,7 +27,14 @@ app.post("/api/price", (req, res) => {
     res.json({ pricePerNight: basePrice });
   });
   
-
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../Frontend/dist")));
+  
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
+    });
+  }
+  
 app.listen(4000, () => {
   console.log(`Server Running On Port ${process.env.PORT}`)
 });
