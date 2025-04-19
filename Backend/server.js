@@ -9,18 +9,14 @@ dotenv.config();
 
 const app = express();
 
-// Resolve __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Port config
 const PORT = process.env.PORT || 4000;
 
-// Price calculation API
 app.post('/api/price', (req, res) => {
   try {
     const { guests } = req.body;
@@ -44,7 +40,7 @@ app.post('/api/price', (req, res) => {
   }
 });
 
-//  Safe static file serving in production
+// Static file serving in production
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '../Frontend/dist');
 
@@ -52,15 +48,15 @@ if (process.env.NODE_ENV === 'production') {
     console.log('Serving frontend from:', distPath);
     app.use(express.static(distPath));
 
-    app.get('*', (req, res) => {
+    //Safe catch-all for SPA routing
+    app.get('/*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   } else {
-    console.warn('⚠️ Frontend dist folder not found. Skipping static serving.');
+    console.warn('⚠️ Frontend dist folder not found. Skipping static file setup.');
   }
 }
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
